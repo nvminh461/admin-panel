@@ -25,7 +25,7 @@ git clone https://github.com/nvminh461/admin-panel.git
 2. Go to project directory
 
 ```
-cd Pharmacy-management-system
+cd admin-panel
 ```
 
 3. Install packages with composer
