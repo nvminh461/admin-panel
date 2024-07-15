@@ -19,6 +19,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $title = 'users';
+        if (!auth()->user()->hasPermissionTo('view-users')) {
+            abort(403, 'Unauthorized action.');
+        }
         if ($request->ajax()) {
             $users = User::get();
             return DataTables::of($users)
@@ -65,6 +68,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (!auth()->user()->hasPermissionTo('create-user')) {
+            abort(403, 'Unauthorized action.');
+        }
         $title = 'create user';
         $roles = Role::get();
         return view('admin.users.create', compact('title','roles'));
@@ -78,6 +84,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        if (!auth()->user()->hasPermissionTo('create-user')) {
+            abort(403, 'Unauthorized action.');
+        }
         $this->validate($request,[
             'name'=>'required|max:100',
             'email'=>'required|email',
@@ -102,7 +111,7 @@ class UserController extends Controller
         return redirect()->route('users.index')->with($notifiation);
     }
 
-   
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -111,6 +120,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        if (!auth()->user()->hasPermissionTo('edit-user')) {
+            abort(403, 'Unauthorized action.');
+        }
         $title = "edit user";
         $roles = Role::get();
         return view('admin.users.edit',compact(
@@ -127,6 +139,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if (!auth()->user()->hasPermissionTo('edit-user')) {
+            abort(403, 'Unauthorized action.');
+        }
         $this->validate($request,[
             'name'=>'required|max:100',
             'email'=>'required|email',
